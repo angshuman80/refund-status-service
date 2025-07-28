@@ -1,8 +1,8 @@
-# refund-service
+# refund-status-service
 Refund Status Service
 
 ## Overview
-The Refund Service is a Spring Boot application designed to manage and provide tax refund status for users. It integrates with external services like IRS and AI-based prediction models to fetch and predict refund details. The service uses DynamoDB as its database and follows best practices for error handling and logging.
+The Refund Status Service is a Spring Boot application designed to manage and provide tax refund status for users. It integrates with external services like IRS and AI-based prediction models to fetch and predict refund details. The service uses DynamoDB as its database and follows best practices for error handling and logging.
 
 ---
 
@@ -38,7 +38,7 @@ The Refund Service is a Spring Boot application designed to manage and provide t
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-repo/refund-service.git
+git clone https://github.com/your-repo/refund-status-service.git
 cd refund-service
 ```
 
@@ -97,7 +97,7 @@ The application uses Log4j2 for logging. Logs are written to both the console an
 
 ## Directory Structure
 ```
-src/main/java/com/turbotax/refundservice/
+src/main/java/com/turbotax/refund/status/
 ├── controller/         # REST controllers
 ├── service/            # Business logic
 ├── dao/                # Data access layer
