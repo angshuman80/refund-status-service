@@ -1,11 +1,11 @@
-package com.turbotax.refund.status.service;
+package com.turbotax.refund.status.clients;
 
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
-public class RefundStatusPredictionService {
+public class RefundStatusPredictionClient {
 
     public Integer predictRefundDays() {
         // code to return days between 10 to 22

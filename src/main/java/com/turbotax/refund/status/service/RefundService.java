@@ -1,5 +1,7 @@
 package com.turbotax.refund.status.service;
 
+import com.turbotax.refund.status.clients.IrsClient;
+import com.turbotax.refund.status.clients.RefundStatusPredictionClient;
 import com.turbotax.refund.status.dao.TaxReturnDAO;
 import com.turbotax.refund.status.exception.ResourceNotFoundException;
 import com.turbotax.refund.status.model.RefundStatus;
@@ -14,25 +16,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RefundService {
-    private final IrsService irsClient;
+    private final IrsClient irsClient;
     private final TaxReturnDAO taxReturnDAO;
-    private final RefundStatusPredictionService aiPredictionClient;
+    private final RefundStatusPredictionClient aiPredictionClient;
+    private final TaxReturnService taxReturnService;
     private static final Logger logger = LogManager.getLogger(RefundService.class);
 
 
 
-    public RefundService(IrsService irsClient,
-                         RefundStatusPredictionService aiPredictionClient, TaxReturnDAO taxReturnDAO) {
+    public RefundService(IrsClient irsClient,
+                         RefundStatusPredictionClient aiPredictionClient, TaxReturnDAO taxReturnDAO, TaxReturnService taxReturnService) {
         this.irsClient = irsClient;
         this.taxReturnDAO = taxReturnDAO;
         this.aiPredictionClient = aiPredictionClient;
+        this.taxReturnService = taxReturnService;
     }
 
     public RefundStatusResponse getRefundStatus(String userId) {
 
         // Fetch tax return for the user
         int taxReturnYear = DateUtils.getPreviousYear();
-        TaxReturn taxReturn = taxReturnDAO.getTaxReturn(userId, taxReturnYear);
+        TaxReturn taxReturn = taxReturnService.getTaxReturn(userId, taxReturnYear);
 
         if (taxReturn != null) {
             logger.info("Tax return found for user: {}, year: {}", taxReturn.getUserId(), taxReturn.getYear());
@@ -93,7 +97,8 @@ public class RefundService {
             }
             response.setTaxRefundDate(refundDate);
         }
-        taxReturnDAO.updateTaxReturn(taxReturn);
+
+        taxReturnService.updateTaxReturn(taxReturn);
         return response;
     }
 
